@@ -3,7 +3,11 @@
     package="com.example.blackbox">
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -22,9 +26,15 @@
 
         <activity android:name=".FolderListView"></activity>
         <activity android:name=".FileListView"></activity>
+        <activity android:name=".GPSActivity"></activity>
+        <activity android:name=".VideoListView"></activity>
+        <activity android:name=".VideoRecord"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
         <activity android:name=".VideoView"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"
                   android:screenOrientation="landscape" />
+
     </application>
 
 </manifest>

@@ -71,5 +71,9 @@ public class CustomListViewAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
-    // Adapter의 addItem을 이용하여 사용자가 쉽게 값을 전달할 수 있도록 설정
+
+    public void remove(int position) {
+        listViewItemList.remove(listViewItemList.get(position));
+    }
+
 }

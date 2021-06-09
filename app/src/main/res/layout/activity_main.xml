@@ -20,8 +20,8 @@
             android:layout_height="match_parent"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:onClick="button1"
-            android:text="실시간 영상공유"
+            android:onClick="VideoRecord"
+            android:text="카메라 영상 촬영"
             android:textSize="20sp"
             app:backgroundTint="#008EFF" />
     </LinearLayout>
@@ -39,8 +39,8 @@
             android:layout_height="match_parent"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:onClick="ListView"
-            android:text="동영상 재생"
+            android:onClick="VideoListView"
+            android:text="녹화된 영상 재생"
             android:textSize="20sp"
             app:backgroundTint="#EDA337" />
     </LinearLayout>
@@ -58,7 +58,26 @@
             android:layout_height="match_parent"
             android:layout_margin="15dp"
             android:layout_weight="1"
-            android:onClick="button3"
+            android:onClick="ListView"
+            android:text="SD카드 영상 재생"
+            android:textSize="20sp"
+            app:backgroundTint="#E91E63" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#000000"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:layout_weight="1"
+            android:onClick="gps"
             android:text="위치 정보"
             android:textSize="20sp"
             app:backgroundTint="#76C379" />

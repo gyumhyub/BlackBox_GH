@@ -1,5 +1,6 @@
 package com.example.blackbox;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -10,7 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
@@ -20,9 +23,10 @@ import java.util.List;
 public class FileListView extends AppCompatActivity {
 
     ListView listView;
+    String folderName;
     String folderName1;
-    String fileName;
-    List<String> setFileView = new ArrayList<>();
+    private int position=2;
+    private long id=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,8 @@ public class FileListView extends AppCompatActivity {
         listView = findViewById(R.id.fileListView);
 
         CustomListViewAdapter adapter = new CustomListViewAdapter();
-        folderName1 = getIntent().getStringExtra("folderName");
-        fileName = getIntent().getStringExtra("fileName");
+        folderName = getIntent().getStringExtra("folderName");
+        folderName1 = getIntent().getStringExtra("fileName");
         listView.setAdapter(adapter);
 
         listRaw(adapter);
@@ -41,8 +45,8 @@ public class FileListView extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String st = adapter.getName(position);
-                Uri uri = Uri.parse("storage/"+folderName1+"/"+fileName+"/"+st);
+                String filename = adapter.getName(position);
+                Uri uri = Uri.parse("storage/"+folderName+"/"+folderName1+"/"+filename);
                 // 해당 위치의 uri를 가져옴
                 Intent intent = new Intent(getApplicationContext(), VideoView.class);
                 intent.putExtra("uri",uri.toString());
@@ -51,11 +55,37 @@ public class FileListView extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                alert.setTitle("확인");
+                alert.setMessage(adapter.getName(position).toString()+" 파일을 삭제하시겠습니까?");
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(),adapter.getName(position).toString() + " 파일이 삭제되었습니다.",Toast.LENGTH_LONG).show();
+                        adapter.remove(position); // 확장된 BaseAdapter의 CustomListViewAdapter에서 메소드 제거
+                        adapter.notifyDataSetChanged();
+                        fileDelete(adapter);
+                        dialog.dismiss();
 
+                    }
+                });
+                alert.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.show();
+                return true;
+            }
+        });
     }
 
     public void listRaw(CustomListViewAdapter adapter) {
-        File file2 = new File("storage/"+folderName1+"/"+fileName);
+        File file2 = new File("storage/"+folderName+"/"+folderName1);
         // 해당 위치에 있는 File을 가져옴
         File list[] = file2.listFiles();
         // File 배열을 만들어 앞에서 가져온 값들을 넣어줌
@@ -75,6 +105,22 @@ public class FileListView extends AppCompatActivity {
             // 영상의 첫 장면(thumbnail)과 파일명(list[i].getName())을 전달함
 
         }
+    }
+
+    public boolean fileDelete(CustomListViewAdapter adapter){
+        try{
+            String filename = adapter.getName(position);
+            File file3 = new File("storage/"+folderName+"/"+folderName1+"/"+filename);
+
+            if(file3.exists()){
+                    file3.delete();
+                }
+                return true;
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

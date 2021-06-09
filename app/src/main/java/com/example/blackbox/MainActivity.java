@@ -47,20 +47,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void button1(View view) { // onClick='button1' 클릭 버튼 연결
-        Toast.makeText(this,"기능 구현중",Toast.LENGTH_SHORT).show();
-            // 버튼 클릭시 Toast 메세지 호출
+    public void VideoRecord(View view) { // onClick='button1' 클릭 버튼 연결
+        Intent intent = new Intent(getApplicationContext(), VideoRecord.class);
+        startActivity(intent);
     }
 
-    public void ListView(View view){ // onClick='ListView' 클릭 버튼 연결
+    public void VideoListView(View view) {
+        Intent intent = new Intent(getApplicationContext(), VideoListView.class);
+        startActivity(intent);
+    }
+
+    public void ListView(View view){
         Intent intent = new Intent(getApplicationContext(), FolderListView.class);
             // FolderListView.java 액티비티로 연결할 수 있게 Intent 함수를 사용하여 'intent' 변수에 저장
         startActivity(intent);
             // 'intent' 변수의 링크로 액티비디 이동
     }
 
-    public void button3(View view) {
-        Toast.makeText(this,"기능 구현중",Toast.LENGTH_SHORT).show();
+    public void gps(View view) {
+        Intent intent = new Intent(getApplicationContext(), GPSActivity.class);
+        startActivity(intent);
     }
 
 
