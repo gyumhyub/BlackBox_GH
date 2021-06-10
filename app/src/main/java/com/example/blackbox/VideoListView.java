@@ -27,10 +27,6 @@ public class VideoListView extends AppCompatActivity {
 
     ListView listView;
     ArrayList<String> fileList = new ArrayList<>();
-    String sdcardName = "";
-
-    private int position=2;
-    private long id=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +42,8 @@ public class VideoListView extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String title = adapter.getName(position);
-                Uri uri = Uri.parse("sdcard/" + sdcardName + "/Movies/"+ title);
+                String filename = adapter.getName(position);
+                Uri uri = Uri.parse("sdcard/Movies/"+ filename);
                 Intent intent = new Intent(getApplicationContext(), VideoView.class);
                 intent.putExtra("uri", uri.toString());
                 startActivity(intent);
@@ -64,6 +60,8 @@ public class VideoListView extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(getApplicationContext(),adapter.getName(position).toString() + " 파일이 삭제되었습니다.",Toast.LENGTH_LONG).show();
                         adapter.remove(position); // 확장된 BaseAdapter의 CustomListViewAdapter에서 메소드 제거
+                        File f = new File("sdcard/Movies/"+adapter.getName(position));
+                        f.delete();
                         adapter.notifyDataSetChanged();
                         dialog.dismiss();
                     }
@@ -81,8 +79,7 @@ public class VideoListView extends AppCompatActivity {
     }
 
     public void listRaw(CustomListViewAdapter adapter){
-        sdPath();
-        File list_file = new File("sdcard/" + sdcardName + "/Movies/");
+        File list_file = new File("sdcard/Movies/");
         File list[] = list_file.listFiles();
 
         for(int i = 0; i < list.length; i++){
@@ -90,18 +87,6 @@ public class VideoListView extends AppCompatActivity {
             Bitmap bitmap  = ThumbnailUtils.createVideoThumbnail(list[i].getPath(), MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
             Bitmap thumbnail = ThumbnailUtils.extractThumbnail(bitmap, 200, 150);
             adapter.addItem(thumbnail,list[i].getName());
-        }
-    }
-
-    public void sdPath() {
-        File file = new File("sdcard/");
-        File[] listOfStorage = file.listFiles();
-
-        for (File tmp : listOfStorage) {
-            if (tmp.getName().contains("-")) {
-                sdcardName = tmp.getName();
-                break;
-            }
         }
     }
 }

@@ -25,8 +25,6 @@ public class FileListView extends AppCompatActivity {
     ListView listView;
     String folderName;
     String folderName1;
-    private int position=2;
-    private long id=2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +64,9 @@ public class FileListView extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(getApplicationContext(),adapter.getName(position).toString() + " 파일이 삭제되었습니다.",Toast.LENGTH_LONG).show();
                         adapter.remove(position); // 확장된 BaseAdapter의 CustomListViewAdapter에서 메소드 제거
+                       // File f = new File("storage/"+folderName+"/"+folderName1+"/"+adapter.getName(position));
+                       // f.delete();
                         adapter.notifyDataSetChanged();
-                        fileDelete(adapter);
                         dialog.dismiss();
 
                     }
@@ -106,21 +105,4 @@ public class FileListView extends AppCompatActivity {
 
         }
     }
-
-    public boolean fileDelete(CustomListViewAdapter adapter){
-        try{
-            String filename = adapter.getName(position);
-            File file3 = new File("storage/"+folderName+"/"+folderName1+"/"+filename);
-
-            if(file3.exists()){
-                    file3.delete();
-                }
-                return true;
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 }

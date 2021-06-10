@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.os.Environment.DIRECTORY_MOVIES;
 
@@ -34,7 +36,9 @@ public class VideoRecord extends AppCompatActivity implements SurfaceHolder.Call
     private boolean recording = false;
 
     private MediaScanner mMediaScanner;
-    private Button btn_record;
+
+    private Timer mTimer;
+    private TimerTask mTask;
 
 
     @Override
@@ -54,32 +58,26 @@ public class VideoRecord extends AppCompatActivity implements SurfaceHolder.Call
                 Manifest.permission.RECORD_AUDIO
         },MODE_PRIVATE);
 
-        btn_record = (Button)findViewById(R.id.btn_record);
         surfaceView = (SurfaceView)findViewById(R.id.surfaceView);
+
 
         try {
             camera = Camera.open();
-            camera.setDisplayOrientation(90);
+            //camera.setDisplayOrientation(90);
         } catch (Exception e) {
             e.printStackTrace();
         }
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
-        surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
-        btn_record.setOnClickListener(new View.OnClickListener() {
+
+        mTask = new TimerTask() {
             @Override
-            public void onClick(View v) {
+            public void run() {
                 if(recording) {
-                    mediaRecorder.stop();
                     mediaRecorder.release();
                     camera.lock();
                     recording=false;
-                    btn_record.setText("녹화 시작");
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HHmmss", Locale.getDefault());
-                    Date curDate = new Date(System.currentTimeMillis());
-                    String filename = formatter.format(curDate);
-                    Toast.makeText(getApplicationContext(),filename.toString() + " 파일을 저장하였습니다.",Toast.LENGTH_LONG).show();
                 } else{
                     runOnUiThread(new Runnable() {
                         @Override
@@ -104,26 +102,31 @@ public class VideoRecord extends AppCompatActivity implements SurfaceHolder.Call
                                 File f = new File(strFolderName + "/" + filename + ".mp4");
                                 result = f.getPath();
                                 mediaRecorder.setOutputFile(result);
-                                mMediaScanner.mediaScanning(strFolderName + "/" + filename + ".mp4");
-                                Toast.makeText(VideoRecord.this, "녹화가 시작되었습니다.", Toast.LENGTH_SHORT).show();
 
-                                //mediaRecorder.setOutputFile("/sdcard/Movies/test.mp4");
+                                mMediaScanner.mediaScanning(strFolderName + "/" + filename + ".mp4");
+                                Toast.makeText(VideoRecord.this, "연속 녹화중 입니다.", Toast.LENGTH_SHORT).show();
                                 mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
                                 mediaRecorder.prepare();
                                 mediaRecorder.start();
                                 recording = true;
-                                btn_record.setText("녹화 중지");
 
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 mediaRecorder.release();
-                                Log.e("test", "prepare() failed" + e);
                             }
                         }
                     });
                 }
             }
-        });
+        };
+
+        mTimer = new Timer();
+        mTimer.schedule(mTask, 0, 5000);
+    }
+
+    @Override protected void onDestroy() {
+        mTimer.cancel();
+        super.onDestroy();
     }
 
 

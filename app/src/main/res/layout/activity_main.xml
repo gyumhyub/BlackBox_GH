@@ -21,7 +21,7 @@
             android:layout_margin="15dp"
             android:layout_weight="1"
             android:onClick="VideoRecord"
-            android:text="카메라 영상 촬영"
+            android:text="실시간 영상 촬영"
             android:textSize="20sp"
             app:backgroundTint="#008EFF" />
     </LinearLayout>
