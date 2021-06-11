@@ -6,12 +6,9 @@ import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,7 +60,7 @@ public class VideoRecord extends AppCompatActivity implements SurfaceHolder.Call
 
         try {
             camera = Camera.open();
-            //camera.setDisplayOrientation(90);
+            camera.setDisplayOrientation(90);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,7 +86,6 @@ public class VideoRecord extends AppCompatActivity implements SurfaceHolder.Call
                                 mediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
                                 mediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
                                 mediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_720P));
-                                mediaRecorder.setOrientationHint(90);
 
                                 String result = "";
                                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HHmmss", Locale.getDefault());

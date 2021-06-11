@@ -30,8 +30,7 @@
         <activity android:name=".GPSActivity"></activity>
         <activity android:name=".VideoListView"></activity>
         <activity android:name=".VideoRecord"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-                  android:screenOrientation="landscape"/>
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <activity android:name=".VideoView"
                   android:theme="@style/Theme.AppCompat.Light.NoActionBar"
