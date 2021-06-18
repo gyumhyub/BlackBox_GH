@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void VideoRecord(View view) { // onClick='button1' 클릭 버튼 연결
-        Intent intent = new Intent(getApplicationContext(), VideoRecord.class);
+        Intent intent = new Intent(getApplicationContext(), VideoMapActivity.class);
         startActivity(intent);
     }
 
@@ -64,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
             // 'intent' 변수의 링크로 액티비디 이동
     }
 
-    public void gps(View view) {
-        Intent intent = new Intent(getApplicationContext(), GPSActivity.class);
+    public void map(View view) {
+        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
         startActivity(intent);
     }
 

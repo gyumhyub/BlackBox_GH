@@ -57,11 +57,11 @@ public class FolderListView extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
                 alert.setTitle("확인");
-                alert.setMessage(setFolderView.get(position).toString()+" 폴더를 삭제하시겠습니까?");
+                alert.setMessage(setFolderView.get(position) +" 폴더를 삭제하시겠습니까?");
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getApplicationContext(),setFolderView.get(position).toString() + " 폴더가 삭제되었습니다.",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), setFolderView.get(position) + " 폴더가 삭제되었습니다.",Toast.LENGTH_LONG).show();
                         setFolderView.remove(position);
                         adapter.notifyDataSetChanged();
                         dialog.dismiss();
@@ -96,7 +96,7 @@ public class FolderListView extends AppCompatActivity {
     public void listRaw(List<String> fileList) {
         sdPath();
         File file1 = new File("storage/"+folderName);
-        File list[] = file1.listFiles();
+        File[] list = file1.listFiles();
 
         for( int i=0; i< list.length; i++)
         {

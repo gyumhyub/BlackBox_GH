@@ -86,7 +86,7 @@ public class FileListView extends AppCompatActivity {
     public void listRaw(CustomListViewAdapter adapter) {
         File file2 = new File("storage/"+folderName+"/"+folderName1);
         // 해당 위치에 있는 File을 가져옴
-        File list[] = file2.listFiles();
+        File[] list = file2.listFiles();
         // File 배열을 만들어 앞에서 가져온 값들을 넣어줌
         for(int i = 0; i < list.length; i++){
 
